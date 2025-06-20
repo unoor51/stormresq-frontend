@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaPaw, FaWheelchair } from 'react-icons/fa';
+import api from '../api/api';
 
 const EvacueeForm = () => {
   const [form, setForm] = useState({
@@ -10,6 +11,8 @@ const EvacueeForm = () => {
     needsPet: false,
     needsDisabled: false,
     acceptedTerms: false,
+    latitude: null,
+    longitude: null,
   });
 
   const handleChange = (e) => {
@@ -24,14 +27,58 @@ const EvacueeForm = () => {
     setForm({ ...form, [field]: !form[field] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!form.acceptedTerms) {
       alert("Please accept the Terms & Conditions.");
       return;
     }
-    console.log('Form Submitted:', form);
+
+    try {
+      const response = await api.post('/evacuees', {
+        phone: form.phone,
+        peopleCount: parseInt(form.peopleCount),
+        situation: form.situation,
+        needsPet: form.needsPet,
+        needsDisabled: form.needsDisabled,
+        latitude: form.latitude,
+        longitude: form.longitude,
+      });
+
+      console.log('Form submitted:', response.data);
+      alert('Request submitted successfully!');
+      setForm({
+        phone: '',
+        peopleCount: '',
+        situation: '',
+        needsPet: false,
+        needsDisabled: false,
+        acceptedTerms: false,
+      });
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setForm((prev) => ({
+            ...prev,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }));
+        },
+        (error) => {
+          console.warn('Geolocation error:', error.message);
+        }
+      );
+    } else {
+      console.warn('Geolocation not available');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20">
