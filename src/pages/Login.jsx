@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api/api';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     phone: '',
     password: '',
@@ -12,10 +14,26 @@ const Login = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // TODO: Connect to API
-    console.log('Logging in:', form);
+     try {
+      const response = await api.post('/login', {
+        phone: form.phone,
+        password: form.password,
+      });
+      const { access_token, user } = response.data;
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('role', user.role);
+
+      console.log('Form submitted:', response.data);
+      // Redirect after success (simulated)
+      navigate('/rescuer/dashboard');
+    } catch (error) {
+      console.error('Submission error:', error);
+      // alert('Login Failed: Please check your credentials and try again.')
+      alert(error.response?.data?.message || 'Login failed');
+    }
   };
 
   return (

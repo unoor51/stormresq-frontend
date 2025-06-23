@@ -16,7 +16,7 @@ const MapView = () => {
                     style={{ border: 0 }}
                     loading="lazy"
                     allowFullScreen
-                    src={`https://www.google.com/maps/embed/v1/view?key=YOUR_GOOGLE_MAPS_API_KEY&center=27.9506,-82.4572&zoom=10`}>
+                    src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyDJYH_x63Kt40v5kJKULx2P1JWbNNK0aUw&center=27.9506,-82.4572&zoom=10`}>
                 </iframe>
                 </div>
             </div>

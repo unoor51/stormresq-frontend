@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../api/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,12 +17,26 @@ const Register = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: Connect to API
-    console.log('Registering:', form);
-    // Redirect after success (simulated)
-    navigate('/rescue/login');
+     try {
+      const response = await api.post('/register', {
+        phone: form.phone,
+        first_name: form.firstName,
+        last_name: form.lastName,
+        password: form.password,
+        email: form.email,
+      });
+
+      console.log('Form submitted:', response.data);
+      alert('Rescuer submitted successfully!');
+      // Redirect after success (simulated)
+      navigate('/rescuer/login');
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (

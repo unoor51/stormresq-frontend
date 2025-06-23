@@ -9,6 +9,9 @@ import RequestList from './pages/RequestList';
 import AssignedList from './pages/AssignedList';
 
 function App() {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  
   return (
     <Router>
       <Routes>
