@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import api from '../api/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,23 +20,31 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Connect to API
-     try {
-      const response = await api.post('/register', {
+
+    try {
+      const response = await api.post('/rescuer/register', {
         phone: form.phone,
         first_name: form.firstName,
         last_name: form.lastName,
-        password: form.password,
         email: form.email,
+        password: form.password,
       });
 
-      console.log('Form submitted:', response.data);
-      alert('Rescuer submitted successfully!');
-      // Redirect after success (simulated)
-      navigate('/rescuer/login');
+      console.log('Register success:', response.data);
+
+      // Store token in localStorage (optional)
+      localStorage.setItem('rescue_token', response.data.token);
+
+      // Redirect to dashboard or login
+      navigate('/rescuer/dashboard');
     } catch (error) {
-      console.error('Submission error:', error);
-      alert('Something went wrong. Please try again.');
+      if (error.response && error.response.data.errors) {
+        console.error('Validation Errors:', error.response.data.errors);
+        alert('Validation failed: ' + JSON.stringify(error.response.data.errors));
+      } else {
+        alert('Something went wrong. Please try again.');
+        console.error('Error:', error);
+      }
     }
   };
 

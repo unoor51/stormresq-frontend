@@ -3,13 +3,13 @@ import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
 
-const RequestList = () => {
+const CancelledRescues = () => {
   const [rescues, setRescues] = useState([]);
 
-  const fetchAvailableRescues = async () => {
+  const fetchCancelledRescues = async () => {
     try {
       const token = localStorage.getItem('rescue_token');
-      const response = await api.get('/rescuer/available-rescues', {
+      const response = await api.get('/rescuer/cancelled-rescues', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,7 +30,7 @@ const RequestList = () => {
       });
 
       alert('Rescue assigned successfully!');
-      fetchAvailableRescues(); // Refresh list
+      fetchCancelledRescues(); // Refresh list
     } catch (error) {
       alert('Could not assign rescue. It may already be taken.');
       console.error('Assign error:', error);
@@ -38,14 +38,14 @@ const RequestList = () => {
   };
 
   useEffect(() => {
-    fetchAvailableRescues();
+    fetchCancelledRescues();
   }, []);
 
   return (
     <RescuerLayout>
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">Available Rescues</h1>
+          <h1 className="text-2xl font-bold mb-6">Cancelled Rescues</h1>
 
           {rescues.length === 0 ? (
             <p>No available rescue requests right now.</p>
@@ -74,7 +74,6 @@ const RequestList = () => {
                         {req.address}
                     </div>
                 )}
-
                 <div className="text-sm mb-1">
                   <strong>People:</strong> {req.people_count}
                 </div>
@@ -103,4 +102,4 @@ const RequestList = () => {
   );
 };
 
-export default RequestList;
+export default CancelledRescues;

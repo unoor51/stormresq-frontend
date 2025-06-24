@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,25 +16,31 @@ const Login = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Connect to API
-     try {
-      const response = await api.post('/login', {
+
+    try {
+      const response = await api.post('/rescuer/login', {
         phone: form.phone,
         password: form.password,
       });
-      const { access_token, user } = response.data;
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('role', user.role);
 
-      console.log('Form submitted:', response.data);
-      // Redirect after success (simulated)
+      console.log('Login success:', response.data);
+
+      // Save token
+      localStorage.setItem('rescue_token', response.data.token);
+
+      // Redirect to dashboard
       navigate('/rescuer/dashboard');
     } catch (error) {
-      console.error('Submission error:', error);
-      // alert('Login Failed: Please check your credentials and try again.')
-      alert(error.response?.data?.message || 'Login failed');
+      if (error.response && error.response.status === 401) {
+        alert('Invalid phone or password');
+      } else if (error.response?.data?.errors) {
+        alert('Validation failed: ' + JSON.stringify(error.response.data.errors));
+      } else {
+        alert('Login error. Try again.');
+      }
+      console.error('Login error:', error);
     }
   };
 

@@ -3,13 +3,13 @@ import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
 
-const RequestList = () => {
+const CompletedRescues = () => {
   const [rescues, setRescues] = useState([]);
 
-  const fetchAvailableRescues = async () => {
+  const fetchCompletedRescues = async () => {
     try {
       const token = localStorage.getItem('rescue_token');
-      const response = await api.get('/rescuer/available-rescues', {
+      const response = await api.get('/rescuer/completed-rescues', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -20,35 +20,18 @@ const RequestList = () => {
     }
   };
 
-  const handleAssign = async (id) => {
-    try {
-      const token = localStorage.getItem('rescue_token');
-      await api.post(`/rescuer/assign/${id}`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      alert('Rescue assigned successfully!');
-      fetchAvailableRescues(); // Refresh list
-    } catch (error) {
-      alert('Could not assign rescue. It may already be taken.');
-      console.error('Assign error:', error);
-    }
-  };
-
   useEffect(() => {
-    fetchAvailableRescues();
+    fetchCompletedRescues();
   }, []);
 
   return (
     <RescuerLayout>
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">Available Rescues</h1>
+          <h1 className="text-2xl font-bold mb-6">Completed Rescues</h1>
 
           {rescues.length === 0 ? (
-            <p>No available rescue requests right now.</p>
+            <p>No completed rescue requests right now.</p>
           ) : (
             rescues.map((req) => (
               <div key={req.id} className="bg-white rounded-lg shadow p-4 mb-4">
@@ -56,12 +39,6 @@ const RequestList = () => {
                   <span className="text-sm text-gray-600">
                     {new Date(req.created_at).toLocaleString()}
                   </span>
-                  <button
-                    onClick={() => handleAssign(req.id)}
-                    className="bg-orange-500 text-white text-sm px-3 py-1 rounded hover:bg-orange-600"
-                  >
-                    Assign to Me
-                  </button>
                 </div>
 
                 <div className="mb-2 text-sm flex items-center gap-2 text-blue-600">
@@ -74,7 +51,7 @@ const RequestList = () => {
                         {req.address}
                     </div>
                 )}
-
+                
                 <div className="text-sm mb-1">
                   <strong>People:</strong> {req.people_count}
                 </div>
@@ -103,4 +80,4 @@ const RequestList = () => {
   );
 };
 
-export default RequestList;
+export default CompletedRescues;

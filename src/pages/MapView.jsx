@@ -1,26 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import api from '../api/api';
 import RescuerLayout from '../layouts/RescuerLayout';
 
+const mapContainerStyle = {
+  width: '100%',
+  height: '80vh',
+};
+
+const defaultCenter = {
+  lat: 31.5204, // Lahore, Pakistan
+  lng: 74.3587,
+};
+
 const MapView = () => {
+  const [evacuees, setEvacuees] = useState([]);
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    const fetchEvacuees = async () => {
+      try {
+        const token = localStorage.getItem('rescue_token');
+        const response = await api.get('/rescuer/all-evacuees', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setEvacuees(response.data.evacuees);
+      } catch (error) {
+        console.error('Failed to fetch evacuees:', error);
+      }
+    };
+
+    fetchEvacuees();
+  }, []);
+
   return (
     <RescuerLayout>
-        <div className="min-h-screen">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-xl font-bold mb-4">Rescue Requests Map</h1>
-                <div className="w-full h-[500px] bg-white border rounded-md shadow">
-                {/* Google Maps placeholder */}
-                <iframe
-                    title="Google Map"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    src={`https://www.google.com/maps/embed/v1/view?key=GOOGLE_MAP_KEY&center=27.9506,-82.4572&zoom=10`}>
-                </iframe>
-                </div>
+      <h1 className="text-2xl font-bold mb-4 px-4">Evacuee Map</h1>
+
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        center={defaultCenter}
+        zoom={6}
+      >
+        {evacuees.map((evacuee) => (
+          <Marker
+            key={evacuee.id}
+            position={{
+              lat: parseFloat(evacuee.latitude),
+              lng: parseFloat(evacuee.longitude),
+            }}
+            onClick={() => setSelected(evacuee)}
+          />
+        ))}
+
+        {selected && (
+          <InfoWindow
+            position={{
+              lat: parseFloat(selected.latitude),
+              lng: parseFloat(selected.longitude),
+            }}
+            onCloseClick={() => setSelected(null)}
+          >
+            <div>
+              <p className="font-bold mb-1">📞 {selected.phone}</p>
+              <p>{selected.situation}</p>
             </div>
-        </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
     </RescuerLayout>
   );
 };

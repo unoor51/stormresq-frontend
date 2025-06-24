@@ -1,16 +1,36 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaCog, FaMapMarkedAlt, FaClipboardList, FaCheckCircle } from 'react-icons/fa';
+import api from '../api/api';
 
 const navLinks = [
   { label: 'Dashboard', path: '/rescuer/dashboard', icon: <FaCog /> },
   { label: 'Rescues Map', path: '/rescuer/map', icon: <FaMapMarkedAlt /> },
   { label: 'Available Rescues', path: '/rescuer/requests', icon: <FaClipboardList /> },
   { label: 'Assigned Rescues', path: '/rescuer/assigned', icon: <FaCheckCircle /> },
+  { label: 'Completed Rescues', path: '/rescuer/completed-rescues', icon: <FaCheckCircle /> },
+  { label: 'Cancelled Rescues', path: '/rescuer/cancelled-rescues', icon: <FaCheckCircle /> },
 ];
 
 const RescuerLayout = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/rescuer/logout', null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('rescue_token')}`,
+        },
+      });
+
+      localStorage.removeItem('rescue_token');
+      navigate('/rescuer/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      alert('Logout failed. Try again.');
+    }
+  };
 
   return (
     <div className="flex min-h-screen ">
@@ -33,16 +53,12 @@ const RescuerLayout = ({ children }) => {
         </nav>
         {/* Logout Button */}
         <div className="mt-auto">
-        <button
-            onClick={() => {
-            // Clear session/token (customize this logic)
-            localStorage.removeItem('rescue_token');
-            window.location.href = '/rescuer/login';
-            }}
+          <button
+            onClick={handleLogout}
             className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition"
-        >
+          >
             Logout
-        </button>
+          </button>
         </div>
       </div>
 

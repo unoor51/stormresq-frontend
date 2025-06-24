@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaPaw, FaWheelchair } from 'react-icons/fa';
 import api from '../api/api';
+import LocationInput from './LocationInput';
 
 const EvacueeForm = () => {
   const [form, setForm] = useState({
@@ -13,7 +14,10 @@ const EvacueeForm = () => {
     acceptedTerms: false,
     latitude: null,
     longitude: null,
+    requestFor: 'myself', // 'myself' or 'someone'
   });
+  const [useManualAddress, setUseManualAddress] = useState(false);
+  const [address, setAddress] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -44,9 +48,10 @@ const EvacueeForm = () => {
         needsDisabled: form.needsDisabled,
         latitude: form.latitude,
         longitude: form.longitude,
+        address: address,
+        request_for:form.requestFor
       });
 
-      console.log('Form submitted:', response.data);
       alert('Request submitted successfully!');
       setForm({
         phone: '',
@@ -57,26 +62,45 @@ const EvacueeForm = () => {
         acceptedTerms: false,
       });
     } catch (error) {
-      console.error('Submission error:', error);
+      
       alert('Something went wrong. Please try again.');
     }
   };
+
+  const getAddressFromCoords = async (lat, lng) => {
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+   
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.results.length > 0) {
+        return data.results[0].formatted_address;
+      } else {
+        return 'Address not found';
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      return 'Error retrieving address';
+    }
+  };
+
   useEffect(() => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setForm((prev) => ({
-            ...prev,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          }));
-        },
-        (error) => {
-          console.warn('Geolocation error:', error.message);
-        }
-      );
-    } else {
-      console.warn('Geolocation not available');
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        setForm((prev) => ({
+          ...prev,
+          latitude,
+          longitude,
+        }));
+
+        const address = await getAddressFromCoords(latitude, longitude);
+        setAddress(address);
+      });
     }
   }, []);
 
@@ -92,10 +116,28 @@ const EvacueeForm = () => {
 
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-2">Get Evacuation Help</h2>
-        <p className="text-center text-blue-600 text-sm mb-4">
-          <a href="#" className="underline">899 Water St, Tampa, FL 33602, USA</a>
-        </p>
-
+        <label className="flex items-center space-x-2 mb-4">
+          <input
+            type="checkbox"
+            checked={useManualAddress}
+            onChange={() => setUseManualAddress(!useManualAddress)}
+          />
+          <span><b>Enter address manually</b></span>
+        </label>
+        
+        {useManualAddress && (
+          <LocationInput
+            onAddressSelect={({ lat, lng, address }) => {
+              setForm((prev) => ({
+                ...prev,
+                latitude: lat,
+                longitude: lng,
+              }));
+              setAddress(address);
+            }}
+          />
+        )}
+        <p className="text-sm text-gray-500 my-3">{address}</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-medium mb-1">Phone Number*</label>
@@ -158,7 +200,40 @@ const EvacueeForm = () => {
               </button>
             </div>
           </div>
+          <div className="my-2">
+            <label className="block font-semibold mb-2">
+              Are you requesting help for:
+            </label>
+            <div className="flex gap-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="requestFor"
+                  value="myself"
+                  checked={form.requestFor === 'myself'}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, requestFor: e.target.value }))
+                  }
+                  className="mr-2"
+                />
+                For Myself
+              </label>
 
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="requestFor"
+                  value="someone"
+                  checked={form.requestFor === 'someone'}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, requestFor: e.target.value }))
+                  }
+                  className="mr-2"
+                />
+                On Someone’s Behalf
+              </label>
+            </div>
+          </div>
           <div className="flex items-start text-sm mt-2">
             <input
               type="checkbox"
