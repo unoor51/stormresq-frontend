@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
-import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +35,10 @@ const Login = () => {
         alert('Invalid phone or password');
       } else if (error.response?.data?.errors) {
         alert('Validation failed: ' + JSON.stringify(error.response.data.errors));
-      } else {
+      } else if(error.response.status === 403) {
+        console.log(error.response);
+        alert(error.response.data.message);
+      }else{
         alert('Login error. Try again.');
       }
       console.error('Login error:', error);

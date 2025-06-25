@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
-import api from '../api/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,13 +29,10 @@ const Register = () => {
         password: form.password,
       });
 
-      console.log('Register success:', response.data);
-
-      // Store token in localStorage (optional)
-      localStorage.setItem('rescue_token', response.data.token);
+      alert("Your account registered successfully. You will be notify once it is approved from the admin side.")
 
       // Redirect to dashboard or login
-      navigate('/rescuer/dashboard');
+      navigate('/rescuer/login');
     } catch (error) {
       if (error.response && error.response.data.errors) {
         console.error('Validation Errors:', error.response.data.errors);

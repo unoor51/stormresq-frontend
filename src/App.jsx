@@ -12,6 +12,15 @@ import AuthRoute from './components/AuthRoute';
 import CompletedRescues from './pages/CompletedRescues';
 import CancelledRescues from './pages/CancelledRescues';
 import { LoadScript } from '@react-google-maps/api';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminAuthRoute from './components/AdminAuthRoute';
+import AdminPrivateRoute from './components/AdminPrivateRoute';
+import AdminRescuers from './pages/admin/AdminRescuers';
+import AdminAvailableRescues from './pages/admin/AdminAvailableRescues';
+import AdminAssignedRescues from './pages/admin/AdminAssignedRescues';
+import AdminCompletedRescues from './pages/admin/AdminCompletedRescues';
+import AdminCancelledRescues from './pages/admin/AdminCancelledRescues';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -21,6 +30,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<EvacueeForm />} />
+          {/* Rescuer Routes */}
           <Route path="/rescuer/login" element={
             <AuthRoute>
               <Login />
@@ -71,6 +81,61 @@ function App() {
               <CancelledRescues />
             </PrivateRoute>
           } />
+          {/* Admiin Routes Start */}
+            <Route path="/admin/login" element={
+              <AdminAuthRoute>
+                <AdminLogin />
+              </AdminAuthRoute>
+            } />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminPrivateRoute>
+                  <AdminDashboard />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/rescuers"
+              element={
+                <AdminPrivateRoute>
+                  <AdminRescuers />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/rescues/available"
+              element={
+                <AdminPrivateRoute>
+                  <AdminAvailableRescues />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/rescues/assigned"
+              element={
+                <AdminPrivateRoute>
+                  <AdminAssignedRescues />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/rescues/completed"
+              element={
+                <AdminPrivateRoute>
+                  <AdminCompletedRescues />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/rescues/cancelled"
+              element={
+                <AdminPrivateRoute>
+                  <AdminCancelledRescues />
+                </AdminPrivateRoute>
+              }
+            />
+          {/* Admin Routes End */}
         </Routes>
       </Router>
     </LoadScript>
