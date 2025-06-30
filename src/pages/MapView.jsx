@@ -9,8 +9,8 @@ const mapContainerStyle = {
 };
 
 const defaultCenter = {
-  lat: 31.5204, // Lahore, Pakistan
-  lng: 74.3587,
+  lat: 39.8283, // Center of USA
+  lng: -98.5795,
 };
 
 const MapView = () => {
