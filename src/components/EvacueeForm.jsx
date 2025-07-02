@@ -17,7 +17,7 @@ const EvacueeForm = () => {
     longitude: null,
     requestFor: 'myself',
   });
-
+  const [successMessage,setSuccessMessage] = useState('You are now in queue & as soon as a rescuer is available, you will receive a message.');
   const [useManualAddress, setUseManualAddress] = useState(false);
   const [address, setAddress] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +54,7 @@ const EvacueeForm = () => {
         address: address,
         request_for: form.requestFor
       });
-
+      setSuccessMessage(response.data.message);
       setShowModal(true);
 
       setForm({
@@ -246,7 +246,7 @@ const EvacueeForm = () => {
 
           <div className="flex items-start text-sm mt-2">
             <span>
-              If you are a rescuer, please login <Link to="/rescuer/login" className="text-orange-500 underline font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Here</Link>.
+              Are you a rescuer, then login <Link to="/rescuer/login" className="text-orange-500 underline font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Here</Link>.
             </span>
           </div>
 
@@ -263,7 +263,7 @@ const EvacueeForm = () => {
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        message="You are now in queue & as soon as a rescuer is available, you will receive a message."
+        message={successMessage}
         title="Request Submitted"
       />
     </div>

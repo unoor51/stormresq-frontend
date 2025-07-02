@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaCheckCircle, FaCog, FaList, FaUser, FaUsers } from 'react-icons/fa';
+import { FaCheckCircle, FaCog, FaCogs, FaList, FaUser, FaUsers } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 
 const AdminLayout = ({ children }) => {
@@ -33,6 +33,7 @@ const AdminLayout = ({ children }) => {
             <Link to="/admin/rescues/assigned" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/rescues/assigned' ? 'bg-orange-600 text-white' : ''}`}><FaCheckCircle /> Assigned Rescues</Link>
             <Link to="/admin/rescues/completed" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/rescues/completed' ? 'bg-orange-600 text-white' : ''}`}><FaCheckCircle /> Completed Rescues</Link>
             <Link to="/admin/rescues/cancelled" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/rescues/cancelled' ? 'bg-orange-600 text-white' : ''}`}><FaCheckCircle /> Cancelled Rescues</Link>
+            <Link to="/admin/settings" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/settings' ? 'bg-orange-600 text-white' : ''}`}><FaCogs /> Settings</Link>
           <button
             onClick={handleLogout}
             className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition"

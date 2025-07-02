@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import Modal from '../components/Modal';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,7 +12,9 @@ const Register = () => {
     email: '',
     password: '',
   });
-
+  const [showModal, setShowModal] = useState(false);
+  const [successMessage,setSuccessMessage] = useState('');
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -29,10 +32,16 @@ const Register = () => {
         password: form.password,
       });
 
-      alert("Your account registered successfully. You will be notify once it is approved from the admin side.")
+      setShowModal(true);
+      setSuccessMessage(response.data.message);
 
-      // Redirect to dashboard or login
-      navigate('/rescuer/login');
+      setForm({
+        phone: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
     } catch (error) {
       if (error.response && error.response.data.errors) {
         console.error('Validation Errors:', error.response.data.errors);
@@ -117,6 +126,13 @@ const Register = () => {
           </form>
         </div>
       </div>
+      {/* Modal appears here after submission */}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        message={successMessage}
+        title="Request Submitted"
+      />
     </div>
   );
 };

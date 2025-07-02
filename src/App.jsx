@@ -22,6 +22,7 @@ import AdminAssignedRescues from './pages/admin/AdminAssignedRescues';
 import AdminCompletedRescues from './pages/admin/AdminCompletedRescues';
 import AdminCancelledRescues from './pages/admin/AdminCancelledRescues';
 import EditProfile from './pages/EditProfile';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -141,6 +142,14 @@ function App() {
               element={
                 <AdminPrivateRoute>
                   <AdminCancelledRescues />
+                </AdminPrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <AdminPrivateRoute>
+                  <AdminSettings />
                 </AdminPrivateRoute>
               }
             />
