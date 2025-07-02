@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaPaw, FaWheelchair } from 'react-icons/fa';
 import api from '../api/api';
 import LocationInput from './LocationInput';
+import Modal from './Modal';
 
 const EvacueeForm = () => {
   const [form, setForm] = useState({
@@ -14,10 +15,12 @@ const EvacueeForm = () => {
     acceptedTerms: false,
     latitude: null,
     longitude: null,
-    requestFor: 'myself', // 'myself' or 'someone'
+    requestFor: 'myself',
   });
+
   const [useManualAddress, setUseManualAddress] = useState(false);
   const [address, setAddress] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -49,10 +52,11 @@ const EvacueeForm = () => {
         latitude: form.latitude,
         longitude: form.longitude,
         address: address,
-        request_for:form.requestFor
+        request_for: form.requestFor
       });
 
-      alert('Request submitted successfully!');
+      setShowModal(true);
+
       setForm({
         phone: '',
         peopleCount: '',
@@ -60,16 +64,18 @@ const EvacueeForm = () => {
         needsPet: false,
         needsDisabled: false,
         acceptedTerms: false,
+        latitude: null,
+        longitude: null,
+        requestFor: 'myself',
       });
+
     } catch (error) {
-      
       alert('Something went wrong. Please try again.');
     }
   };
 
   const getAddressFromCoords = async (lat, lng) => {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-   
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
 
     try {
@@ -106,16 +112,9 @@ const EvacueeForm = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20">
-      {/* Orange Top Tab Navigation */}
-      <div class="w-full max-w-md px-4">
-        <div className="flex justify-around">
-          <Link to="/rescuer/login" className="text-gray-600 font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Rescuer Login</Link>
-          <Link to="/rescuer/signup" className="text-gray-600 font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Rescuer Signup</Link>
-        </div>
-      </div>
-
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-2">Get Evacuation Help</h2>
+
         <label className="flex items-center space-x-2 mb-4">
           <input
             type="checkbox"
@@ -124,7 +123,7 @@ const EvacueeForm = () => {
           />
           <span><b>Enter address manually</b></span>
         </label>
-        
+
         {useManualAddress && (
           <LocationInput
             onAddressSelect={({ lat, lng, address }) => {
@@ -137,7 +136,9 @@ const EvacueeForm = () => {
             }}
           />
         )}
+
         <p className="text-sm text-gray-500 my-3">{address}</p>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-medium mb-1">Phone Number*</label>
@@ -146,7 +147,7 @@ const EvacueeForm = () => {
               <input
                 type="text"
                 name="phone"
-                placeholder="(614) 578-5994"
+                placeholder="1 (813) 485-6949"
                 value={form.phone}
                 onChange={handleChange}
                 className="flex-1 outline-none"
@@ -200,10 +201,9 @@ const EvacueeForm = () => {
               </button>
             </div>
           </div>
+
           <div className="my-2">
-            <label className="block font-semibold mb-2">
-              Are you requesting help for:
-            </label>
+            <label className="block font-semibold mb-2">Are you requesting help for:</label>
             <div className="flex gap-4">
               <label className="inline-flex items-center">
                 <input
@@ -211,29 +211,25 @@ const EvacueeForm = () => {
                   name="requestFor"
                   value="myself"
                   checked={form.requestFor === 'myself'}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, requestFor: e.target.value }))
-                  }
+                  onChange={handleChange}
                   className="mr-2"
                 />
                 For Myself
               </label>
-
               <label className="inline-flex items-center">
                 <input
                   type="radio"
                   name="requestFor"
                   value="someone"
                   checked={form.requestFor === 'someone'}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, requestFor: e.target.value }))
-                  }
+                  onChange={handleChange}
                   className="mr-2"
                 />
                 On Someone’s Behalf
               </label>
             </div>
           </div>
+
           <div className="flex items-start text-sm mt-2">
             <input
               type="checkbox"
@@ -248,6 +244,12 @@ const EvacueeForm = () => {
             </span>
           </div>
 
+          <div className="flex items-start text-sm mt-2">
+            <span>
+              If you are a rescuer, please login <Link to="/rescuer/login" className="text-orange-500 underline font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Here</Link>.
+            </span>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition"
@@ -256,6 +258,14 @@ const EvacueeForm = () => {
           </button>
         </form>
       </div>
+
+      {/* Modal appears here after submission */}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        message="You are now in queue & as soon as a rescuer is available, you will receive a message."
+        title="Request Submitted"
+      />
     </div>
   );
 };
