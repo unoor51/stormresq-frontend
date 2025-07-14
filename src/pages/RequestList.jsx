@@ -1,22 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
+import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook, FaIdBadge } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
 
 const RequestList = () => {
   const [rescues, setRescues] = useState([]);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const fetchAvailableRescues = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('rescue_token');
       const response = await api.get('/rescuer/available-rescues', {
+        params: {
+        search,
+        page,
+        per_page: 5,
+      },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setRescues(response.data.rescues);
+      setRescues(response.data.data);
+      setTotalPages(response.data.last_page);
     } catch (error) {
       console.error('Failed to fetch rescues:', error);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +52,7 @@ const RequestList = () => {
 
   useEffect(() => {
     fetchAvailableRescues();
-  }, []);
+  }, [page, search]);
 
   return (
     <RescuerLayout>
@@ -63,7 +76,10 @@ const RequestList = () => {
                     Assign to Me
                   </button>
                 </div>
-
+                <div className="mb-2 text-sm flex items-center gap-2">
+                  <FaIdBadge className="text-gray-500" />
+                  Req ID : {req.id}
+                </div>
                 <div className="mb-2 text-sm flex items-center gap-2 text-blue-600">
                   <FaPhoneAlt className="text-gray-500" />
                   <a href={`tel:${req.phone}`}>{req.phone}</a>
@@ -97,6 +113,19 @@ const RequestList = () => {
               </div>
             ))
           )}
+
+          {/* Pagination */}
+          <div className="flex gap-2 mt-4 justify-center">
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i + 1)}
+                className={`px-3 py-1 rounded ${page === i + 1 ? 'bg-orange-600 text-white' : 'bg-gray-300'}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </RescuerLayout>
