@@ -111,8 +111,8 @@ const EvacueeForm = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20 pb-20">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-2">Get Evacuation Help</h2>
 
         <label className="flex items-center space-x-2 mb-4">
