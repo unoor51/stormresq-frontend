@@ -26,6 +26,7 @@ import AdminSettings from './pages/admin/AdminSettings';
 import Home from './components/Home';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsConditions from './components/TermsConditions';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -33,10 +34,11 @@ function App() {
   return (
     <LoadScript googleMapsApiKey={GOOGLE_API_KEY} libraries={libraries}>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsConditions />} />
           <Route path="/rescuee" element={<EvacueeForm />} />
           {/* Rescuer Routes */}
           <Route path="/rescuer/login" element={

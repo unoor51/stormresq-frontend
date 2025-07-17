@@ -11,9 +11,9 @@ const PrivacyPolicy = () => {
         <div className="main">
         <div className="main-container">
             <div className="logo">
-            <a href="/">
+            <Link to="/">
                 <img src={logo} alt="Logo" />
-            </a>
+            </Link>
             </div>
             <div className="content-inner">
             <div className="page-heading">
@@ -131,8 +131,8 @@ const PrivacyPolicy = () => {
                 </div>
             </div>
             <div className="footer-links">
-                <Link to="/privacy">Privacy Policy</Link>
-                <Link to="/terms">Terms and Conditions</Link>
+                <Link to="/privacy-policy">Privacy Policy</Link>
+                <Link to="/terms-and-conditions">Terms and Conditions</Link>
             </div>
             <div className="copyright">
                 <p>&copy; 2025 StormResQ. All rights reserved.</p>

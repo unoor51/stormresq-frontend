@@ -10,7 +10,81 @@ body{
   font-weight: 400;
   font-style: normal;
 }
-
+button.bg-orange-500,
+#mc-embedded-subscribe{
+  background-color: #E67E22 !important;
+}
+button.bg-orange-500:hover{
+  background-color: #e67e22bf !important;
+}
+.bg-gradient-to-b {
+    background: linear-gradient(to bottom right, #5c8999, #3B5770, #2C3E50) !important;
+}
+.submit-request{
+  margin-top: 30px;
+    line-height: normal;
+    background-color: #e67e22;
+    color: #fff;
+    border: none;
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px #0003;
+    transition: all .3s ease;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.login-btn{
+  margin-top: 30px;
+    line-height: normal;
+    background-color: #e67e22;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px #0003;
+    transition: all .3s ease;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+#mc-embedded-subscribe:hover{
+  background-color: #e67e22bf !important;
+}
+#mc-embedded-subscribe{
+  background-color: #e67e22 !important;
+  color: #fff;
+  border: none;
+  padding: .7rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px #0003;
+  transition: all .3s ease;
+  text-transform: uppercase;
+}
+.text-orange-500{
+  color: #E67E22 !important;
+}
+.splash-screen-wrapper #mc_embed_signup{
+  padding-bottom: 10px;
+}
+.splash-screen-wrapper .close-mailchimp-modal{
+  font-size: 2rem;
+  right: 1.75rem;
+  top:1rem;
+  color: #000;
+}
+.splash-screen-wrapper #mc_embed_signup input[type="text"], 
+.splash-screen-wrapper #mc_embed_signup input[type="email"]{
+  padding-top: .7rem;
+  padding-bottom:.7rem;
+}
 .splash-screen-wrapper {
   height: 100%;
   background: linear-gradient(to bottom right, #5c8999, #3B5770, #2C3E50);
@@ -60,6 +134,14 @@ body{
 }
 .splash-screen-wrapper ul {
   padding-left:30px;
+}
+.splash-screen-wrapper a.app-link{
+  pointer-events: none;
+    opacity:.3;
+}
+.splash-screen-wrapper .app-downloads-text span{
+  font-size: .9rem;
+  font-style: italic;
 }
 .splash-screen-wrapper a {
   color: #E67E22;

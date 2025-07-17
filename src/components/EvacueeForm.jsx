@@ -4,6 +4,7 @@ import { FaPhoneAlt, FaPaw, FaWheelchair } from 'react-icons/fa';
 import api from '../api/api';
 import LocationInput from './LocationInput';
 import Modal from './Modal';
+import logo from '../assets/images/stormresq-logo.png';
 
 const EvacueeForm = () => {
   const [form, setForm] = useState({
@@ -111,8 +112,13 @@ const EvacueeForm = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20 pb-20">
-      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20 pb-20" style={{ paddingTop: '2rem' }} >
+      <div className="logo max-w-md text-center">
+          <Link to="/">
+          <img src={logo} alt="Logo" className='w-[300px]' />
+          </Link>
+      </div>
+      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg" style={{ marginTop: '3rem' }}>
         <h2 className="text-2xl font-bold text-center mb-2">Get Evacuation Help</h2>
 
         <label className="flex items-center space-x-2 mb-4">
@@ -252,7 +258,7 @@ const EvacueeForm = () => {
 
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition"
+            className="w-full submit-request"
           >
             Submit Request
           </button>

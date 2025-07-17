@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import logo from '../assets/images/stormresq-logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -46,11 +47,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20">
-      <div className="w-full max-w-md px-4">
+    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20" style={{ paddingTop: '2rem' }}>
+      <div className="logo max-w-md text-center">
+        <Link to="/">
+        <img src={logo} alt="Logo" className='w-[300px]' />
+        </Link>
+    </div>
+      <div className="w-full max-w-md px-4" style={{ marginTop: '3rem' }}>
         <div className="flex justify-around mb-6">
-          <Link to="/rescuer/login" className="text-orange-600 font-semibold border-b-2 border-orange-500">Rescuer Login</Link>
-          <Link to="/rescuer/signup" className="text-gray-600 font-semibold hover:text-orange-600">Rescuer Signup</Link>
+          <Link to="/rescuer/login" className="text-orange-500 font-semibold border-b-2 border-orange-500">Rescuer Login</Link>
+          <Link to="/rescuer/signup" className="text-orange-500 font-semibold hover:text-orange-600">Rescuer Signup</Link>
         </div>
 
         <div className="bg-white shadow-lg rounded-xl p-6">
@@ -80,7 +86,7 @@ const Login = () => {
               />
             </div>
 
-            <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition">
+            <button type="submit" className="w-full login-btn">
               Login
             </button>
           </form>

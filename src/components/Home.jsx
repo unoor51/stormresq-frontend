@@ -13,9 +13,9 @@ const Home = () => {
     <div className="splash-screen-wrapper">
         <div className="splash-screen">
         <div className="logo">
-            <a href="/">
+            <Link to="/">
             <img src={logo} alt="Logo" />
-            </a>
+            </Link>
         </div>
 
         <div className="content">
@@ -35,7 +35,8 @@ const Home = () => {
 
             <div className="app-downloads">
             <p className="app-downloads-text">
-                Download the app to stay connected and receive real-time updates.
+                Download the app to stay connected and receive real-time updates.<br></br>
+                <span className='text-orange-500'>Coming Soon</span>
             </p>
             <div className="app-links">
                 <a href="#" className="app-link">
@@ -50,8 +51,8 @@ const Home = () => {
 
         <footer className="footer-main">
             <div className="footer-links">
-            <Link to="/privacy">Privacy Policy</Link>
-            <Link to="/terms">Terms and Conditions</Link>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms-and-conditions">Terms and Conditions</Link>
             </div>
             <div className="copyright">
             <p>&copy; 2025 StormResQ. All rights reserved.</p>
@@ -61,9 +62,9 @@ const Home = () => {
         {/* Mailchimp Modal */}
         {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-lg max-w-md w-full relative">
+            <div className="bg-white p-6 rounded shadow-lg max-w-md w-full relative shadow-md" style={{ borderRadius: '15px' }}>
                 <button
-                className="absolute top-2 right-3 text-gray-500 hover:text-black text-lg"
+                className="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl close-mailchimp-modal"
                 onClick={() => setShowModal(false)}
                 >
                 &times;

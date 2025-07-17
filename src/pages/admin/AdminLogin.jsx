@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
+import logo from '../../assets/images/stormresq-logo.png';
 
 const AdminLogin = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -25,10 +26,15 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20">
+    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20" style={{ paddingTop: '2rem' }}>
+      <div className="logo max-w-md text-center">
+          <Link to="/">
+          <img src={logo} alt="Logo" className='w-[300px]' />
+          </Link>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow w-full max-w-sm"
+        className="bg-white p-6 rounded shadow w-full max-w-sm" style={{ marginTop: '3rem' }}
       >
         <h2 className="text-xl font-bold text-center mb-4">Admin Login</h2>
 
@@ -62,7 +68,7 @@ const AdminLogin = () => {
 
         <button
           type="submit"
-          className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition"
+          className="w-full login-btn"
         >
           Login
         </button>

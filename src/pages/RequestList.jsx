@@ -15,16 +15,12 @@ const RequestList = () => {
     try {
       const token = localStorage.getItem('rescue_token');
       const response = await api.get('/rescuer/available-rescues', {
-        params: {
-        search,
-        page,
-        per_page: 5,
-      },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setRescues(response.data.data);
+      console.log(response.data);
+      setRescues(response.data.rescues);
       setTotalPages(response.data.last_page);
     } catch (error) {
       console.error('Failed to fetch rescues:', error);
@@ -76,10 +72,10 @@ const RequestList = () => {
                     Assign to Me
                   </button>
                 </div>
-                <div className="mb-2 text-sm flex items-center gap-2">
+                {/* <div className="mb-2 text-sm flex items-center gap-2">
                   <FaIdBadge className="text-gray-500" />
                   Req ID : {req.id}
-                </div>
+                </div> */}
                 <div className="mb-2 text-sm flex items-center gap-2 text-blue-600">
                   <FaPhoneAlt className="text-gray-500" />
                   <a href={`tel:${req.phone}`}>{req.phone}</a>
@@ -115,7 +111,7 @@ const RequestList = () => {
           )}
 
           {/* Pagination */}
-          <div className="flex gap-2 mt-4 justify-center">
+          {/* <div className="flex gap-2 mt-4 justify-center">
             {[...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
@@ -125,7 +121,7 @@ const RequestList = () => {
                 {i + 1}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </RescuerLayout>
