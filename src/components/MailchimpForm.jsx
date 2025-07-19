@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 // import '../assets/style.css'; // Copy classic-061523.css from Mailchimp and rename as mailchimp.css
 
 const MailchimpForm = () => {
@@ -25,7 +26,7 @@ const MailchimpForm = () => {
             <input
             type="text"
             name="FNAME"
-            className="text w-full border border-gray-300 rounded px-3 py-2"
+            className="text w-full border border-gray-300 rounded px-3 py-2 text-gray-600"
             id="mce-FNAME"
             />
         </div>
@@ -36,10 +37,17 @@ const MailchimpForm = () => {
             <input
             type="email"
             name="EMAIL"
-            className="required email w-full border border-gray-300 rounded px-3 py-2"
+            className="required email w-full border border-gray-300 rounded px-3 py-2 text-gray-600"
             id="mce-EMAIL"
             required
             />
+        </div>
+        <p className="font-medium mb-1 text-left" style={{color:'gray',paddingBottom:'5px'}}><b>Terms and Conditions Agreement</b></p> 
+        <div className="flex items-center text-sm mt-2">
+            <input type="radio" name="MMERGE3" id="mce-MMERGE30" value="I agree to the Terms and Conditions and Privacy Policy."/>
+            <label for="mce-MMERGE30" className='text-gray-600 ml-2'>
+                I agree to the <Link to="/terms-and-conditions" style={{fontSize:'12px'}} target="_blank"> Terms and Conditions </Link> and <Link to="/privacy-policy" style={{fontSize:'12px'}} target="_blank">Privacy Policy</Link>
+            </label>
         </div>
         <div id="mce-responses" className="clear mb-4">
             <div className="response text-red-500 text-sm" id="mce-error-response" style={{ display: 'none' }}></div>
