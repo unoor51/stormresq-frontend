@@ -12,7 +12,6 @@ const MailchimpForm = () => {
         name="mc-embedded-subscribe-form"
         className="validate"
         target="_blank"
-        noValidate
     >
         <div id="mc_embed_signup_scroll">
         <h2 className="text-2xl font-bold mb-1 text-center text-orange-500">Subscribe</h2>
@@ -21,13 +20,14 @@ const MailchimpForm = () => {
         </div>
         <div className="mc-field-group mb-6">
             <label htmlFor="mce-FNAME" className="block font-medium mb-1 text-gray-600 text-left">
-            First Name
+            First Name <span className="asterisk text-red-500">*</span>
             </label>
             <input
             type="text"
             name="FNAME"
             className="text w-full border border-gray-300 rounded px-3 py-2 text-gray-600"
             id="mce-FNAME"
+            required
             />
         </div>
         <div className="mc-field-group mb-6">
@@ -42,9 +42,9 @@ const MailchimpForm = () => {
             required
             />
         </div>
-        <p className="font-medium mb-1 text-left" style={{color:'gray',paddingBottom:'5px'}}><b>Terms and Conditions Agreement</b></p> 
+        <p className="font-medium mb-1 text-left" style={{color:'gray',paddingBottom:'5px'}}><b>Terms and Conditions Agreement</b> <span className="asterisk text-red-500">*</span></p> 
         <div className="flex items-center text-sm mt-2">
-            <input type="radio" name="MMERGE3" id="mce-MMERGE30" value="I agree to the Terms and Conditions and Privacy Policy."/>
+            <input type="radio" name="MMERGE3" id="mce-MMERGE30" value="I agree to the Terms and Conditions and Privacy Policy." required/>
             <label for="mce-MMERGE30" className='text-gray-600 ml-2'>
                 I agree to the <Link to="/terms-and-conditions" style={{fontSize:'12px'}} target="_blank"> Terms and Conditions </Link> and <Link to="/privacy-policy" style={{fontSize:'12px'}} target="_blank">Privacy Policy</Link>
             </label>
