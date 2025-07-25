@@ -21,13 +21,13 @@ const Home = () => {
         <div className="content">
             <h1>Be Ready Before the Storm Hits!</h1>
             <h2>
-            Be the first to know about approaching storms and safety alerts in your
-            area.
+            StormResQ connects trained volunteer responders with people who need help during hurricanes and disasters.
             </h2>
             <p>
-            Subscribe now to receive early warnings, real-time rescue updates, and
-            vital instructions from verified emergency teams — before the danger
-            reaches your doorstep.
+            The app matches rescue requests with verified teams on the ground, streamlining communication, improving coordination, and helping save lives when every second counts.
+            </p>
+             <p>
+            Whether you're seeking help or ready to respond, StormResQ is the digital lifeline when disaster strikes.
             </p>
             <button className="rescue-btn" onClick={() => setShowModal(true)}>
             Subscribe for Alerts
