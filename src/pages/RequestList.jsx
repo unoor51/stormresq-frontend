@@ -19,7 +19,6 @@ const RequestList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       setRescues(response.data.data);
       setTotalPages(response.data.last_page);
     } catch (error) {
