@@ -20,7 +20,7 @@ const RequestList = () => {
         },
       });
       console.log(response.data);
-      setRescues(response.data.rescues);
+      setRescues(response.data.data);
       setTotalPages(response.data.last_page);
     } catch (error) {
       console.error('Failed to fetch rescues:', error);
