@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/api';
 import Modal from '../components/Modal';
 import logo from '../assets/images/stormresq-logo.png';
+import LocationInput from '../components/LocationInput';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,6 +13,9 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
+    address:'',
+    latitude: null,
+    longitude: null,
   });
   const [showModal, setShowModal] = useState(false);
   const [successMessage,setSuccessMessage] = useState('');
@@ -31,6 +35,9 @@ const Register = () => {
         last_name: form.lastName,
         email: form.email,
         password: form.password,
+        address: form.address,
+        latitude: form.latitude,
+        longitude: form.longitude,
       });
 
       setShowModal(true);
@@ -42,6 +49,9 @@ const Register = () => {
         lastName: '',
         email: '',
         password: '',
+        address:'',
+        latitude:null,
+        longitude:null,
       });
     } catch (error) {
       if (error.response && error.response.data.errors) {
@@ -70,6 +80,20 @@ const Register = () => {
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Signup</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block mb-1 font-medium">Office Location</label>
+              <LocationInput
+                onAddressSelect={({ lat, lng, address }) => {
+                setForm((prev) => ({
+                ...prev,
+                address,
+                latitude: lat,
+                longitude: lng,
+                }));
+                }}
+              />
+            </div>
+            
             <div>
               <label className="block mb-1 font-medium">Phone Number</label>
               <input
