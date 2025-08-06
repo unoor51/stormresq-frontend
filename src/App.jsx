@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EvacueeForm from './components/EvacueeForm';
-import Login from './pages/Login';
-import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MapView from './pages/MapView';
 import RequestList from './pages/RequestList';
@@ -27,12 +25,19 @@ import Home from './components/Home';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsConditions from './components/TermsConditions';
 import ScrollToTop from './components/ScrollToTop';
+import ForgotPassword from './pages/rescuer/ForgotPassword';
+import Login from './pages/rescuer/Login';
+import Register from './pages/rescuer/Register';
+import ResetPassword from './pages/rescuer/ResetPassword';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const libraries = ['places']; // or ['places', 'geometry', etc.]
   return (
     <LoadScript googleMapsApiKey={GOOGLE_API_KEY} libraries={libraries}>
+      <ToastContainer />
       <Router>
         <ScrollToTop />
         <Routes>
@@ -40,10 +45,21 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsConditions />} />
           <Route path="/rescuee" element={<EvacueeForm />} />
+          
           {/* Rescuer Routes */}
           <Route path="/rescuer/login" element={
             <AuthRoute>
               <Login />
+            </AuthRoute>          
+            } />
+          <Route path="/rescuer/forgot-password" element={
+            <AuthRoute>
+              <ForgotPassword />
+            </AuthRoute>          
+            } />
+            <Route path="/rescuer/reset-password" element={
+            <AuthRoute>
+              <ResetPassword />
             </AuthRoute>          
             } />
           <Route path="/rescuer/signup" element={

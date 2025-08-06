@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
-import Modal from '../components/Modal';
-import logo from '../assets/images/stormresq-logo.png';
-import LocationInput from '../components/LocationInput';
+import api from '../../api/api';
+import Modal from '../../components/Modal';
+import logo from '../../assets/images/stormresq-logo.png';
+import LocationInput from '../../components/LocationInput';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const Register = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [successMessage,setSuccessMessage] = useState('');
-  
+  const [error, setError] = useState('');
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -27,7 +28,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError('');
     try {
       const response = await api.post('/rescuer/register', {
         phone: form.phone,
@@ -55,11 +56,9 @@ const Register = () => {
       });
     } catch (error) {
       if (error.response && error.response.data.errors) {
-        console.error('Validation Errors:', error.response.data.errors);
-        alert('Validation failed: ' + JSON.stringify(error.response.data.errors));
+        setError(error.response.data.message);
       } else {
-        alert('Something went wrong. Please try again.');
-        console.error('Error:', error);
+        setError('Something went wrong. Please try again.');
       }
     }
   };
@@ -79,6 +78,9 @@ const Register = () => {
 
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Signup</h2>
+           {error && (
+            <div className="text-red-600 text-sm mb-4">{error}</div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block mb-1 font-medium">Office Location</label>
@@ -154,6 +156,9 @@ const Register = () => {
               Signup
             </button>
           </form>
+          <div className="flex flex-start mt-6">
+            <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
+          </div>
         </div>
       </div>
       {/* Modal appears here after submission */}

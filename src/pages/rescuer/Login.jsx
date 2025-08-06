@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
-import logo from '../assets/images/stormresq-logo.png';
+import api from '../../api/api';
+import logo from '../../assets/images/stormresq-logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Login = () => {
     phone: '',
     password: '',
   });
-
+  const [error, setError] = useState('');
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -17,14 +17,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError('');
     try {
       const response = await api.post('/rescuer/login', {
         phone: form.phone,
         password: form.password,
       });
-
-      console.log('Login success:', response.data);
 
       // Save token
       localStorage.setItem('rescue_token', response.data.token);
@@ -33,16 +31,15 @@ const Login = () => {
       navigate('/rescuer/dashboard');
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert('Invalid phone or password');
+        setError('Invalid phone or password');
       } else if (error.response?.data?.errors) {
-        alert('Validation failed: ' + JSON.stringify(error.response.data.errors));
+        setError(error.response.data.message);
       } else if(error.response.status === 403) {
-        console.log(error.response);
-        alert(error.response.data.message);
+        setError(error.response.data.message);
       }else{
-        alert('Login error. Try again.');
+        alert();
+        setError('Login error. Try again.');
       }
-      console.error('Login error:', error);
     }
   };
 
@@ -61,6 +58,9 @@ const Login = () => {
 
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Login</h2>
+          {error && (
+            <div className="text-red-600 text-sm mb-4">{error}</div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block mb-1 font-medium">Phone Number</label>
@@ -90,6 +90,9 @@ const Login = () => {
               Login
             </button>
           </form>
+          <div className="flex flex-start mt-6">
+            <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
+          </div>
         </div>
       </div>
     </div>
