@@ -9,39 +9,61 @@ const mapContainerStyle = {
 };
 
 const defaultCenter = {
-  lat: 39.8283, // Center of USA
-  lng: -98.5795,
+  lat: 31.582045, // Lahore, Pakistan
+  lng: 74.329376,
 };
 
 const MapView = () => {
   const [evacuees, setEvacuees] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [rescuer, setRescuer] = useState(null);
 
   useEffect(() => {
-    const fetchEvacuees = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem('rescue_token');
-        const response = await api.get('/rescuer/all-evacuees', {
+
+        // Fetch profile first to get rescuer location
+        const profileResponse = await api.get('/rescuer/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setEvacuees(response.data.evacuees);
+        const rescuerData = profileResponse.data.rescuer;
+        setRescuer(rescuerData);
+
+        // Then fetch evacuees nearby using rescuer location
+        const evacueesResponse = await api.get('/rescuer/nearby-rescuees', {
+          params: { lat: rescuerData.latitude, lng: rescuerData.longitude },
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setEvacuees(evacueesResponse.data.rescuees);
       } catch (error) {
-        console.error('Failed to fetch evacuees:', error);
+        console.error('Failed to load data:', error);
       }
     };
 
-    fetchEvacuees();
+    fetchData();
   }, []);
+
+  const rescuerLat = parseFloat(rescuer?.latitude);
+  const rescuerLng = parseFloat(rescuer?.longitude);
+  const mapCenter =
+    rescuerLat && rescuerLng ? { lat: rescuerLat, lng: rescuerLng } : defaultCenter;
 
   return (
     <RescuerLayout>
       <h1 className="text-2xl font-bold mb-4 px-4">Evacuee Map</h1>
 
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={defaultCenter}
-        zoom={6}
-      >
+      <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={10}>
+        {/* Rescuer Marker */}
+        {rescuerLat && rescuerLng && (
+          <Marker
+            position={{ lat: rescuerLat, lng: rescuerLng }}
+            label="You"
+            icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+          />
+        )}
+
+        {/* Evacuees */}
         {evacuees.map((evacuee) => (
           <Marker
             key={evacuee.id}
@@ -53,6 +75,7 @@ const MapView = () => {
           />
         ))}
 
+        {/* Info Window */}
         {selected && (
           <InfoWindow
             position={{
