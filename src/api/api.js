@@ -5,7 +5,7 @@ let baseURL = '';
 if (window.location.hostname === 'localhost') {
   baseURL = 'http://127.0.0.1:8000/api';
 } else if (window.location.hostname.includes('lightslategrey')) {
-  baseURL = 'https://lightslategrey-termite-750324.hostingersite.com//api';
+  baseURL = 'https://lightslategrey-termite-750324.hostingersite.com/api';
 } else {
   baseURL = 'https://stormresq.com/';
 }
