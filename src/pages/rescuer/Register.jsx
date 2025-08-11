@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import api from '../../api/api';
 import Modal from '../../components/Modal';
 import logo from '../../assets/images/stormresq-logo.png';
 import LocationInput from '../../components/LocationInput';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 
 const Register = () => {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     phone: '',
     firstName: '',
@@ -19,7 +20,7 @@ const Register = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [successMessage,setSuccessMessage] = useState('');
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +29,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setLoading(true);
     try {
       const response = await api.post('/rescuer/register', {
         phone: form.phone,
@@ -56,10 +57,12 @@ const Register = () => {
       });
     } catch (error) {
       if (error.response && error.response.data.errors) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError('Something went wrong. Please try again.');
+        toast.error('Something went wrong. Please try again.');
       }
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -78,87 +81,87 @@ const Register = () => {
 
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Signup</h2>
-           {error && (
-            <div className="text-red-600 text-sm mb-4">{error}</div>
-          )}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">Office Location</label>
-              <LocationInput
-                onAddressSelect={({ lat, lng, address }) => {
-                setForm((prev) => ({
-                ...prev,
-                address,
-                latitude: lat,
-                longitude: lng,
-                }));
-                }}
-              />
-            </div>
-            
-            <div>
-              <label className="block mb-1 font-medium">Phone Number</label>
-              <input
-                type="text"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                value={form.firstName}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={form.lastName}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-1 font-medium">Office Location</label>
+                <LocationInput
+                  onAddressSelect={({ lat, lng, address }) => {
+                  setForm((prev) => ({
+                  ...prev,
+                  address,
+                  latitude: lat,
+                  longitude: lng,
+                  }));
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label className="block mb-1 font-medium">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
 
-            <button type="submit" className="w-full login-btn">
-              Signup
-            </button>
-          </form>
-          <div className="flex flex-start mt-6">
-            <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
-          </div>
+              <button type="submit" className="w-full login-btn">
+                Signup
+              </button>
+            </form>
+            </>
+            )}
         </div>
       </div>
       {/* Modal appears here after submission */}

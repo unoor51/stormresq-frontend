@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
+import { toast } from 'react-toastify';
 
 const AssignedList = () => {
   const [rescues, setRescues] = useState([]);
@@ -16,7 +17,7 @@ const AssignedList = () => {
       });
       setRescues(response.data.rescues);
     } catch (error) {
-      console.error('Failed to fetch assigned rescues:', error);
+      toast.error('Failed to fetch assigned rescues');
     }
   };
 
@@ -27,10 +28,10 @@ const AssignedList = () => {
             await api.post(`/rescuer/cancel/${id}`, null, {
             headers: { Authorization: `Bearer ${localStorage.getItem('rescue_token')}` },
             });
-            alert('Rescue canceled.');
+            toast.success('Rescue canceled.');
             fetchAssignedRescues(); // refresh list
         } catch (err) {
-            alert('Error canceling rescue');
+            toast.error('Error canceling rescue');
         }
     };
 
@@ -41,10 +42,10 @@ const AssignedList = () => {
             await api.post(`/rescuer/complete/${id}`, null, {
             headers: { Authorization: `Bearer ${localStorage.getItem('rescue_token')}` },
             });
-            alert('Rescue completed.');
+            toast.success('Rescue completed.');
             fetchAssignedRescues(); // refresh list
         } catch (err) {
-            alert('Error completing rescue');
+            toast.error('Error completing rescue');
         }
     };
 
@@ -62,7 +63,7 @@ const AssignedList = () => {
             <p>No assigned rescue requests yet.</p>
           ) : (
             rescues.map((req) => (
-              <div key={req.id} className="bg-white rounded-lg shadow p-4 mb-4">
+              <div key={req.id} className="bg-white rounded-lg shadow p-4 mb-4 bordered-orange">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm text-gray-600">
                     {new Date(req.created_at).toLocaleString()}

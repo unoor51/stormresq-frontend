@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
+import { toast } from 'react-toastify';
 
 const CancelledRescues = () => {
   const [rescues, setRescues] = useState([]);
@@ -16,7 +17,7 @@ const CancelledRescues = () => {
       });
       setRescues(response.data.rescues);
     } catch (error) {
-      console.error('Failed to fetch rescues:', error);
+      toast.error('Failed to fetch rescues.');
     }
   };
 
@@ -29,11 +30,10 @@ const CancelledRescues = () => {
         },
       });
 
-      alert('Rescue assigned successfully!');
+      toast.success('Rescue assigned successfully!');
       fetchCancelledRescues(); // Refresh list
     } catch (error) {
-      alert('Could not assign rescue. It may already be taken.');
-      console.error('Assign error:', error);
+      toast.error('Could not assign rescue. It may already be taken.');
     }
   };
 
@@ -51,7 +51,7 @@ const CancelledRescues = () => {
             <p>No available rescue requests right now.</p>
           ) : (
             rescues.map((req) => (
-              <div key={req.id} className="bg-white rounded-lg shadow p-4 mb-4">
+              <div key={req.id} className="bg-white rounded-lg shadow p-4 mb-4 bordered-orange">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm text-gray-600">
                     {new Date(req.created_at).toLocaleString()}

@@ -51,7 +51,7 @@ const RescuerLayout = ({ children }) => {
       </button>
       {/* Sidebar */}
       <div
-        className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 bg-orange-500 text-white p-4 transform transition-transform duration-300 ease-in-out
+        className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 custom-gray-bg text-white p-4 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:block`}
       >
@@ -88,7 +88,7 @@ const RescuerLayout = ({ children }) => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 bg-gray-100 p-6 pt-16 md:pt-6 overflow-y-auto bg-gradient-to-b from-orange-200 to-white">
+      <div className="flex-1 p-6 pt-16 md:pt-6 overflow-y-auto">
         {children}
       </div>
     </div>

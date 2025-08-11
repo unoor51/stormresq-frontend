@@ -306,3 +306,9 @@ button.bg-orange-500:hover{
       width:150px;
   }
 }
+.custom-gray-bg{
+  background-color: #2C3E50;
+}
+.bordered-orange{
+  border: 1px solid #ea580c;
+}

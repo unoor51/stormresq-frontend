@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import logo from '../../assets/images/stormresq-logo.png';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ const Login = () => {
     phone: '',
     password: '',
   });
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -17,7 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setLoading(true);
     try {
       const response = await api.post('/rescuer/login', {
         phone: form.phone,
@@ -31,15 +33,16 @@ const Login = () => {
       navigate('/rescuer/dashboard');
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        setError('Invalid phone or password');
+        toast.error('Invalid phone or password');
       } else if (error.response?.data?.errors) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else if(error.response.status === 403) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       }else{
-        alert();
-        setError('Login error. Try again.');
+        toast.error('Login error. Try again.');
       }
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -58,41 +61,44 @@ const Login = () => {
 
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Login</h2>
-          {error && (
-            <div className="text-red-600 text-sm mb-4">{error}</div>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-1 font-medium">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1 font-medium">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+
+              <button type="submit" className="w-full login-btn">
+                Login
+              </button>
+            </form>
+            <div className="flex flex-start mt-6">
+              <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
+            </div>
+            </>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">Phone Number</label>
-              <input
-                type="text"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                className="w-full border px-3 py-2 rounded-md"
-              />
-            </div>
-
-            <button type="submit" className="w-full login-btn">
-              Login
-            </button>
-          </form>
-          <div className="flex flex-start mt-6">
-            <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
-          </div>
         </div>
       </div>
     </div>

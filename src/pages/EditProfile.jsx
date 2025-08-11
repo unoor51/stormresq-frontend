@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
+import { toast } from 'react-toastify';
 
 const EditProfile = () => {
   const [form, setForm] = useState({
@@ -21,7 +22,7 @@ const EditProfile = () => {
         const { first_name, last_name, phone } = response.data.rescuer;
         setForm({ first_name, last_name, phone, password: '' });
       } catch (err) {
-        console.error('Failed to load profile', err);
+        toast.error('Failed to load profile', err);
       }
     };
 
@@ -40,9 +41,9 @@ const EditProfile = () => {
       await api.put('/rescuer/profile', form, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert('Profile updated successfully!');
+      toast.success('Profile updated successfully!');
     } catch (err) {
-      alert('Update failed.');
+      toast.error('Update failed.');
     } finally {
       setLoading(false);
     }

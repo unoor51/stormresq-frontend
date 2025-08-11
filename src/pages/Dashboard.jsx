@@ -43,15 +43,15 @@ const Dashboard = () => {
             <h1 className="text-2xl font-bold mb-4">Welcome {stats.user_name} to Your Dashboard</h1>
             <p className="text-gray-600">Choose a section from the sidebar to begin.</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <div className="bg-white p-4 rounded shadow">
+              <div className="bg-white p-4 rounded shadow bordered-orange">
                 <h2 className="text-sm font-semibold text-gray-600 mb-2">Assigned Rescues</h2>
                 <p className="text-3xl font-bold text-orange-500">{stats.assigned_rescues}</p>
               </div>
-              <div className="bg-white p-4 rounded shadow">
+              <div className="bg-white p-4 rounded shadow bordered-orange">
                 <h2 className="text-sm font-semibold text-gray-600 mb-2">Completed Rescues</h2>
                 <p className="text-3xl font-bold text-orange-500">{stats.completed_rescues}</p>
               </div>
-              <div className="bg-white p-4 rounded shadow">
+              <div className="bg-white p-4 rounded shadow bordered-orange">
                 <h2 className="text-sm font-semibold text-gray-600 mb-2">Cancelled Rescues</h2>
                 <p className="text-3xl font-bold text-orange-500">{stats.cancelled_rescues}</p>
               </div>

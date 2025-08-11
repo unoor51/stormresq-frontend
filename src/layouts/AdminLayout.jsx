@@ -21,7 +21,7 @@ const AdminLayout = ({ children }) => {
         ☰
       </button>
       {/* Sidebar */}
-      <aside className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 bg-orange-500 text-white p-4 transform transition-transform duration-300 ease-in-out
+      <aside className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 custom-gray-bg text-white p-4 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:block`}>
         <h1 className="text-2xl font-bold mb-8 pt-16 md:pt-0">StormResQ Admin</h1>
@@ -44,7 +44,7 @@ const AdminLayout = ({ children }) => {
       </aside>
 
       {/* Content Area */}
-      <div className="flex-1 bg-gray-100 p-6 overflow-y-auto bg-gradient-to-b from-orange-200 to-white pt-16 md:pt-0">{children}</div>
+      <div className="flex-1 p-6 overflow-y-auto pt-16 md:pt-0">{children}</div>
     </div>
   );
 };
