@@ -8,6 +8,7 @@ import {
   FaUserAlt
 } from 'react-icons/fa';
 import api from '../api/api';
+import logo from '../assets/images/stormresq-logo.png';
 
 const navLinks = [
   { label: 'Dashboard', path: '/rescuer/dashboard', icon: <FaCog /> },
@@ -55,7 +56,9 @@ const RescuerLayout = ({ children }) => {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:block`}
       >
-        <h1 className="text-2xl font-bold mb-8 pt-16 md:pt-0">StormResQ</h1>
+        <Link to="/admin/dashboard">
+          <img src={logo} alt="Logo" className='w-[200px] mb-8 pt-16 md:pt-0' />
+        </Link>
         <nav className="flex flex-col space-y-3">
           {navLinks.map((link) => (
             <Link

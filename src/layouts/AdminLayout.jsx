@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaCheckCircle, FaCog, FaCogs, FaList, FaUser, FaUsers } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/images/stormresq-logo.png';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -24,7 +25,11 @@ const AdminLayout = ({ children }) => {
       <aside className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 custom-gray-bg text-white p-4 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:block`}>
-        <h1 className="text-2xl font-bold mb-8 pt-16 md:pt-0">StormResQ Admin</h1>
+        <div className="logo max-w-md mb-8 pt-16 md:pt-0">
+          <Link to="/admin/dashboard">
+          <img src={logo} alt="Logo" className='w-[200px]' />
+          </Link>
+      </div>
         <nav className="flex flex-col space-y-3">
           
             <Link to="/admin/dashboard" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/dashboard' ? 'bg-orange-600 text-white' : ''}`}> <FaCog /> Dashboard</Link>
@@ -44,7 +49,7 @@ const AdminLayout = ({ children }) => {
       </aside>
 
       {/* Content Area */}
-      <div className="flex-1 p-6 overflow-y-auto pt-16 md:pt-0">{children}</div>
+      <div className="flex-1 p-6 overflow-y-auto" style={{ padding: "3.5rem" }}>{children}</div>
     </div>
   );
 };

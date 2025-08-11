@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import logo from '../../assets/images/stormresq-logo.png';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 
 const AdminLogin = () => {
   const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,14 +16,16 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setLoading(true);
     
     try {
       const response = await api.post('/admin/login', form);
       localStorage.setItem('admin_token', response.data.token);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      toast.error('Invalid email or password');
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -38,40 +42,44 @@ const AdminLogin = () => {
       >
         <h2 className="text-xl font-bold text-center mb-4">Admin Login</h2>
 
-        {error && (
-          <div className="text-red-600 text-sm mb-4">{error}</div>
-        )}
+        {
+          loading ? (
+            <Loader />
+          ) :(
+            <>              
+              <div className="mb-4">
+                <label className="block mb-1">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded"
+                  required
+                />
+              </div>
 
-        <div className="mb-4">
-          <label className="block mb-1">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-            required
-          />
-        </div>
+              <div className="mb-4">
+                <label className="block mb-1">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded"
+                  required
+                />
+              </div>
 
-        <div className="mb-4">
-          <label className="block mb-1">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full login-btn"
-        >
-          Login
-        </button>
+              <button
+                type="submit"
+                className="w-full login-btn"
+              >
+                Login
+              </button>
+            </>    
+          )
+        }
       </form>
     </div>
   );
