@@ -67,12 +67,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20" style={{ paddingTop: '2rem' }}>
+    <div className="min-h-screen bg-gradient-to-b from-orange-200 to-white flex flex-col items-center justify-start pt-20" style={{ padding: '2rem' }}>
       <div className="logo max-w-md text-center">
-                <Link to="/">
-                <img src={logo} alt="Logo" className='w-[300px]' />
-                </Link>
-            </div>
+        <Link to="/">
+        <img src={logo} alt="Logo" className='w-[300px]' />
+        </Link>
+      </div>
       <div className="w-full max-w-md px-4" style={{ marginTop: '3rem' }}>
         <div className="flex justify-around mb-6">
           <Link to="/rescuer/login" className="text-orange-500 font-semibold hover:text-orange-600">Rescuer Login</Link>
@@ -171,6 +171,17 @@ const Register = () => {
         message={successMessage}
         title="Request Submitted"
       />
+      <div className='splash-screen-wrapper'>
+        <footer className="footer-main">
+          <div className="footer-links">
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms-and-conditions">Terms and Conditions</Link>
+          </div>
+          <div className="copyright">
+              <p>&copy; 2025 StormResQ. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };
