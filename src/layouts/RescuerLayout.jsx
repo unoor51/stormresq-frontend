@@ -75,7 +75,7 @@ const RescuerLayout = ({ children }) => {
           ))}
           <button
             onClick={handleLogout}
-            className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition"
+            className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition font-bold"
           >
             Logout
           </button>

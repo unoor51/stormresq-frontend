@@ -41,7 +41,7 @@ const AdminLayout = ({ children }) => {
             <Link to="/admin/settings" onClick={() => setSidebarOpen(false)} className={`flex items-center gap-2 px-3 py-2 rounded-md hover:bg-orange-600 ${location.pathname === '/admin/settings' ? 'bg-orange-600 text-white' : ''}`}><FaCogs /> Settings</Link>
           <button
             onClick={handleLogout}
-            className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition"
+            className="w-full mt-6 py-2 text-center bg-white text-orange-600 rounded-md hover:bg-orange-100 transition font-bold"
           >
             Logout
           </button>

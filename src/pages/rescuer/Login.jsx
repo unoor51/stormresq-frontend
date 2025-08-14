@@ -8,7 +8,7 @@ import Loader from '../../components/Loader';
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    phone: '',
+    email: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await api.post('/rescuer/login', {
-        phone: form.phone,
+        email: form.email,
         password: form.password,
       });
 
@@ -33,7 +33,7 @@ const Login = () => {
       navigate('/rescuer/dashboard');
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error('Invalid phone or password');
+        toast.error('Invalid email or password');
       } else if (error.response?.data?.errors) {
         toast.error(error.response.data.message);
       } else if(error.response.status === 403) {
@@ -67,11 +67,11 @@ const Login = () => {
             <>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block mb-1 font-medium">Phone Number</label>
+                <label className="block mb-1 font-medium">Email</label>
                 <input
-                  type="text"
-                  name="phone"
-                  value={form.phone}
+                  type="email"
+                  name="email"
+                  value={form.email}
                   onChange={handleChange}
                   required
                   className="w-full border px-3 py-2 rounded-md"

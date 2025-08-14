@@ -293,6 +293,10 @@ button.bg-orange-500:hover{
 .splash-screen-wrapper .page-heading {
     padding-bottom:20px;
 }
+.table-header{
+  background: #2c3e50d9;
+  color: #fff;
+}
 @media(max-width:767px) {
   .splash-screen-wrapper .splash-screen .content h1 {
     font-size: 2.2rem;
