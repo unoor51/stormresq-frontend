@@ -7,7 +7,7 @@ if (window.location.hostname === 'localhost') {
 } else if (window.location.hostname.includes('lightslategrey')) {
   baseURL = 'https://lightslategrey-termite-750324.hostingersite.com/api';
 } else {
-  baseURL = 'https://stormresq.com/';
+  baseURL = 'https://stormresq.com/api';
 }
 
 const api = axios.create({

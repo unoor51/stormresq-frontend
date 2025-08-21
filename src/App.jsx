@@ -37,6 +37,8 @@ import UserDashboard from './pages/users/UserDashboard';
 import UserAuthRoute from './components/UserAuthRoute';
 import UserPrivateRoute from './components/UserPrivateRoute';
 import UserForgotPassword from './pages/users/UserForgotPassword';
+import UserResetPassword from './pages/users/UserResetPassword';
+import UserEditProfile from './pages/users/UserEditProfile';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -68,11 +70,24 @@ function App() {
               <UserForgotPassword />
             </UserAuthRoute>          
             } />
+          <Route path="/user/reset-password" element={
+            <UserAuthRoute>
+              <UserResetPassword />
+            </UserAuthRoute>          
+          } />
           <Route
             path="/user/dashboard"
             element={
               <UserPrivateRoute>
                 <UserDashboard />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="/user/edit-profile"
+            element={
+              <UserPrivateRoute>
+                <UserEditProfile />
               </UserPrivateRoute>
             }
           />

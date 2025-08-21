@@ -13,10 +13,10 @@ import logo from '../assets/images/stormresq-logo.png';
 const navLinks = [
   { label: 'Dashboard', path: '/user/dashboard', icon: <FaCog /> },
 //   { label: 'Rescues Map', path: '/rescuer/map', icon: <FaMapMarkedAlt /> },
-//   { label: 'Available Rescues', path: '/rescuer/requests', icon: <FaClipboardList /> },
+  { label: 'My Requests', path: '#', icon: <FaClipboardList /> },
 //   { label: 'Assigned Rescues', path: '/rescuer/assigned', icon: <FaCheckCircle /> },
-//   { label: 'Completed Rescues', path: '/rescuer/completed-rescues', icon: <FaCheckCircle /> },
-//   { label: 'Cancelled Rescues', path: '/rescuer/cancelled-rescues', icon: <FaCheckCircle /> },
+  { label: 'Completed Requests', path: '#', icon: <FaCheckCircle /> },
+  { label: 'Cancelled Requests', path: '#', icon: <FaCheckCircle /> },
   { label: 'Edit Profile', path: '/user/edit-profile', icon: <FaUserAlt /> },
 ];
 

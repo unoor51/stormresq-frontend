@@ -96,18 +96,6 @@ const UserRegister = () => {
                   }}
                 />
               </div>
-              
-              <div>
-                <label className="block mb-1 font-medium">Phone Number</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full border px-3 py-2 rounded-md"
-                />
-              </div>
               <div>
                 <label className="block mb-1 font-medium">Name</label>
                 <input
@@ -120,6 +108,17 @@ const UserRegister = () => {
                 />
               </div>
               
+              <div>
+                <label className="block mb-1 font-medium">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
               <div>
                 <label className="block mb-1 font-medium">Email Address</label>
                 <input
