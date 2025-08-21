@@ -31,6 +31,12 @@ import Register from './pages/rescuer/Register';
 import ResetPassword from './pages/rescuer/ResetPassword';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserLogin from './pages/users/UserLogin';
+import UserRegister from './pages/users/UserRegister';
+import UserDashboard from './pages/users/UserDashboard';
+import UserAuthRoute from './components/UserAuthRoute';
+import UserPrivateRoute from './components/UserPrivateRoute';
+import UserForgotPassword from './pages/users/UserForgotPassword';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -46,6 +52,32 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsConditions />} />
           <Route path="/rescuee" element={<EvacueeForm />} />
           
+           {/* User Routes */}
+           <Route path="/user/login" element={
+            <UserAuthRoute>
+              <UserLogin />
+            </UserAuthRoute>          
+            } />
+          <Route path="/user/signup" element={
+            <UserAuthRoute>
+            <UserRegister />
+            </UserAuthRoute>
+          } />
+          <Route path="/user/forgot-password" element={
+            <UserAuthRoute>
+              <UserForgotPassword />
+            </UserAuthRoute>          
+            } />
+          <Route
+            path="/user/dashboard"
+            element={
+              <UserPrivateRoute>
+                <UserDashboard />
+              </UserPrivateRoute>
+            }
+          />
+
+
           {/* Rescuer Routes */}
           <Route path="/rescuer/login" element={
             <AuthRoute>
