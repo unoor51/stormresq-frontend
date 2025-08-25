@@ -6,6 +6,7 @@ import logo from '../../assets/images/stormresq-logo.png';
 import LocationInput from '../../components/LocationInput';
 import { toast } from 'react-toastify';
 import Loader from '../../components/Loader';
+import { FaPaw, FaWheelchair } from 'react-icons/fa';
 
 const UserRegister = () => {
   const [form, setForm] = useState({
@@ -16,6 +17,9 @@ const UserRegister = () => {
     address:'',
     latitude: null,
     longitude: null,
+    peopleCount: '',
+    needsPet: false,
+    needsDisabled: false,
   });
   const [showModal, setShowModal] = useState(false);
   const [successMessage,setSuccessMessage] = useState('');
@@ -24,6 +28,10 @@ const UserRegister = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+   const toggleNeed = (field) => {
+    setForm({ ...form, [field]: !form[field] });
   };
 
   const handleSubmit = async (e) => {
@@ -38,6 +46,9 @@ const UserRegister = () => {
         address: form.address,
         latitude: form.latitude,
         longitude: form.longitude,
+        peopleCount: parseInt(form.peopleCount),
+        needsPet: form.needsPet,
+        needsDisabled: form.needsDisabled,
       });
 
       setShowModal(true);
@@ -51,6 +62,9 @@ const UserRegister = () => {
         address:'',
         latitude:null,
         longitude:null,
+        needsPet: false,
+        needsDisabled: false,
+        peopleCount:'',
       });
     } catch (error) {
       if (error.response && error.response.data.errors) {
@@ -136,7 +150,37 @@ const UserRegister = () => {
                   className="w-full border px-3 py-2 rounded-md"
                 />
               </div>
-
+              <div>
+              <label className="block font-medium mb-1">People Count*</label>
+              <input
+                type="number"
+                name="peopleCount"
+                placeholder="4"
+                value={form.peopleCount}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded-md"
+                required
+              />
+            </div>
+               <div>
+                  <label className="block font-medium mb-1">Additional Needs</label>
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => toggleNeed('needsPet')}
+                      className={`flex items-center gap-1 px-4 py-2 border rounded-md ${form.needsPet ? 'bg-orange-100 border-orange-500' : ''}`}
+                    >
+                      <FaPaw /> Pet
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleNeed('needsDisabled')}
+                      className={`flex items-center gap-1 px-4 py-2 border rounded-md ${form.needsDisabled ? 'bg-orange-100 border-orange-500' : ''}`}
+                    >
+                      <FaWheelchair /> Disabled
+                    </button>
+                  </div>
+                </div>
               <button type="submit" className="w-full login-btn">
                 Signup
               </button>
