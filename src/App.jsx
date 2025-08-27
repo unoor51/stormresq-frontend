@@ -40,6 +40,9 @@ import UserForgotPassword from './pages/users/UserForgotPassword';
 import UserResetPassword from './pages/users/UserResetPassword';
 import UserEditProfile from './pages/users/UserEditProfile';
 import RescueeRequestForm from './pages/users/RescueeRequestForm';
+import UserRequests from './pages/users/UserRequests';
+import UserCancelledRequests from './pages/users/UserCancelledRequests';
+import UserCompletedRequests from './pages/users/UserCompletedRequests';
 
 function App() {
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -89,6 +92,30 @@ function App() {
             element={
               <UserPrivateRoute>
                 <RescueeRequestForm  />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="/user/my_requests"
+            element={
+              <UserPrivateRoute>
+                <UserRequests  />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="/user/completed_requests"
+            element={
+              <UserPrivateRoute>
+                <UserCompletedRequests  />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="/user/cancelled_requests"
+            element={
+              <UserPrivateRoute>
+                <UserCancelledRequests  />
               </UserPrivateRoute>
             }
           />

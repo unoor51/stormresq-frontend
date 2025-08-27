@@ -12,7 +12,7 @@ import logo from '../assets/images/stormresq-logo.png';
 
 const navLinks = [
   { label: 'Dashboard', path: '/rescuer/dashboard', icon: <FaCog /> },
-  { label: 'Rescues Map', path: '/rescuer/map', icon: <FaMapMarkedAlt /> },
+  { label: 'Rescuee Map', path: '/rescuer/map', icon: <FaMapMarkedAlt /> },
   { label: 'Available Rescues', path: '/rescuer/requests', icon: <FaClipboardList /> },
   { label: 'Assigned Rescues', path: '/rescuer/assigned', icon: <FaCheckCircle /> },
   { label: 'Completed Rescues', path: '/rescuer/completed-rescues', icon: <FaCheckCircle /> },
@@ -55,6 +55,7 @@ const RescuerLayout = ({ children }) => {
         className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 custom-gray-bg text-white p-4 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:block`}
+        style={{ height: "auto" }}
       >
         <Link to="/admin/dashboard">
           <img src={logo} alt="Logo" className='w-[200px] mb-8 pt-16 md:pt-0' />

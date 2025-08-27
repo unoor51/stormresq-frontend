@@ -15,8 +15,13 @@ const RescueeRequestForm = () => {
     latitude: "",
     longitude: "",
     situation:"",
+    user_id:null,
   });
   const [address, setAddress] = useState('');
+  
+  const toggleNeed = (field) => {
+    setForm({ ...form, [field]: !form[field] });
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -25,14 +30,17 @@ const RescueeRequestForm = () => {
         const response = await api.get("/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        const { email, phone, address, pets, disabled } = response.data.rescuer;
+        const { id, email, phone, address, pets, disabled,people_count,latitude,longitude } = response.data.rescuer;
         setForm((prev) => ({
           ...prev,
           email,
           phone,
           needsPet:pets,
           needsDisabled:disabled,
+          people_count,
+          latitude,
+          longitude,
+          user_id:id,
         }));
         setAddress(address);
       } catch (err) {
@@ -47,15 +55,24 @@ const RescueeRequestForm = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-
+console.log(form.user_id);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("user_token");
-      await api.post("/evacuees", form, {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await api.post('/evacuees', {
+        phone: form.phone,
+        peopleCount: parseInt(form.people_count),
+        situation: form.situation,
+        needsPet: form.needsPet,
+        needsDisabled: form.needsDisabled,
+        latitude: form.latitude,
+        longitude: form.longitude,
+        address: address,
+        request_for: 'myself',
+        user_id:form.user_id,
       });
-      toast.success("Rescue request submitted successfully!");
+      toast.success(response.data.message);
     } catch (err) {
       toast.error("Failed to submit rescue request.");
     }
@@ -63,53 +80,58 @@ const RescueeRequestForm = () => {
 
   return (
     <UserLayout>
-      <div className="max-w-2xl mx-auto bg-white shadow-md p-6 rounded-md">
         <h1 className="text-2xl font-bold text-orange-600 mb-4">Request Rescue</h1>
+      <div className="bg-white shadow-md p-6 rounded-md">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block font-semibold">Address</label>
-             <LocationInput
-              onAddressSelect={({ lat, lng, address }) => {
-                setForm((prev) => ({
-                  ...prev,
-                  latitude: lat,
-                  longitude: lng,
-                }));
-                setAddress(address);
-              }}
-            />
-            <p className="text-sm text-gray-500 my-3">{address}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block font-semibold">Address</label>
+              <LocationInput
+                onAddressSelect={({ lat, lng, address }) => {
+                  setForm((prev) => ({
+                    ...prev,
+                    latitude: lat,
+                    longitude: lng,
+                  }));
+                  setAddress(address);
+                }}
+              />
+              <p className="text-sm text-gray-500 my-3">{address}</p>
+            </div>
+            <div>
+              <label className="block font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
           </div>
-          <div>
-            <label className="block font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block font-semibold">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block font-semibold">People Count</label>
+              <input
+                type="number"
+                name="people_count"
+                value={form.people_count}
+                onChange={handleChange}
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
           </div>
-          <div>
-            <label className="block font-semibold">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="block font-semibold">People Count</label>
-            <input
-              type="number"
-              name="people_count"
-              value={form.people_count}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div>
               <label className="block font-medium mb-1">Situation*</label>
               <textarea
@@ -142,7 +164,7 @@ const RescueeRequestForm = () => {
                 </button>
               </div>
             </div>
-
+          </div>
           <button
             type="submit"
             className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"

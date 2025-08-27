@@ -3,11 +3,13 @@ import { FaPhoneAlt, FaPaw, FaWheelchair, FaAddressBook } from 'react-icons/fa';
 import RescuerLayout from '../layouts/RescuerLayout';
 import api from '../api/api';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
 
 const CompletedRescues = () => {
   const [rescues, setRescues] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const fetchCompletedRescues = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('rescue_token');
       const response = await api.get('/rescuer/completed-rescues', {
@@ -18,6 +20,8 @@ const CompletedRescues = () => {
       setRescues(response.data.rescues);
     } catch (error) {
       toast.error('Failed to fetch rescues.');
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -28,9 +32,11 @@ const CompletedRescues = () => {
   return (
     <RescuerLayout>
       <div className="min-h-screen">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">Completed Rescues</h1>
-
+        <h1 className="text-2xl font-bold mb-6">Completed Rescues</h1>
+        {
+          loading ? <Loader/> :
+          (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {rescues.length === 0 ? (
             <p>No completed rescue requests right now.</p>
           ) : (
@@ -76,6 +82,8 @@ const CompletedRescues = () => {
             ))
           )}
         </div>
+          )
+        }
       </div>
     </RescuerLayout>
   );

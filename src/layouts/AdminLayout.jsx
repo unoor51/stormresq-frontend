@@ -24,7 +24,8 @@ const AdminLayout = ({ children }) => {
       {/* Sidebar */}
       <aside className={`fixed min-h-screen z-40 top-0 left-0 h-full w-64 custom-gray-bg text-white p-4 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static md:block`}>
+        md:translate-x-0 md:static md:block`}
+        style={{ height: "auto" }}>
         <div className="logo max-w-md mb-8 pt-16 md:pt-0">
           <Link to="/admin/dashboard">
           <img src={logo} alt="Logo" className='w-[200px]' />

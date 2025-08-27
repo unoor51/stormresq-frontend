@@ -51,7 +51,7 @@ const MapView = () => {
 
   return (
     <RescuerLayout>
-      <h1 className="text-2xl font-bold mb-4 px-4">Evacuee Map</h1>
+      <h1 className="text-2xl font-bold mb-4">Rescuee Map</h1>
 
       <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={10}>
         {/* Rescuer Marker */}

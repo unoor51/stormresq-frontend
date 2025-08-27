@@ -33,6 +33,7 @@ const CancelledRescues = () => {
       toast.success('Rescue assigned successfully!');
       fetchCancelledRescues(); // Refresh list
     } catch (error) {
+      console.log(error);
       toast.error('Could not assign rescue. It may already be taken.');
     }
   };
@@ -44,9 +45,8 @@ const CancelledRescues = () => {
   return (
     <RescuerLayout>
       <div className="min-h-screen">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">Cancelled Rescues</h1>
-
+        <h1 className="text-2xl font-bold mb-6">Cancelled Rescues</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {rescues.length === 0 ? (
             <p>No available rescue requests right now.</p>
           ) : (
@@ -56,12 +56,12 @@ const CancelledRescues = () => {
                   <span className="text-sm text-gray-600">
                     {new Date(req.created_at).toLocaleString()}
                   </span>
-                  <button
+                  {/* <button
                     onClick={() => handleAssign(req.id)}
                     className="bg-orange-500 text-white text-sm px-3 py-1 rounded hover:bg-orange-600"
                   >
                     Assign to Me
-                  </button>
+                  </button> */}
                 </div>
 
                 <div className="mb-2 text-sm flex items-center gap-2 text-blue-600">
