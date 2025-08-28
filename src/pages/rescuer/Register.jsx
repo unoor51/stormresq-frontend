@@ -73,12 +73,7 @@ const Register = () => {
         <img src={logo} alt="Logo" className='w-[300px]' />
         </Link>
       </div>
-      <div className="w-full max-w-md px-4" style={{ marginTop: '3rem' }}>
-        <div className="flex justify-around mb-6">
-          <Link to="/rescuer/login" className="text-orange-500 font-semibold hover:text-orange-600">Rescuer Login</Link>
-          <Link to="/rescuer/signup" className="text-orange-500 font-semibold border-b-2 border-orange-500">Rescuer Signup</Link>
-        </div>
-
+      <div className="w-full max-w-md px-4" style={{ marginTop: '2rem' }}>
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Signup</h2>
             {loading ? (
@@ -160,6 +155,11 @@ const Register = () => {
                 Signup
               </button>
             </form>
+            <div className="flex items-center justify-center text-sm mt-6">
+              <span>
+                Already have an account? <Link to="/rescuer/login" className="text-orange-500 font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Login Here</Link>.
+              </span>
+            </div>
             </>
             )}
         </div>

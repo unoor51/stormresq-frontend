@@ -63,9 +63,8 @@ const AdminSettings = () => {
 
   return (
     <AdminLayout>
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Site Settings</h2>
-
+      <h2 className="text-xl font-bold mb-4">Site Settings</h2>
+      <div className="max-w-2xl p-6 bg-white rounded shadow">
         {loading ? (
           <p>Loading...</p>
         ) : (

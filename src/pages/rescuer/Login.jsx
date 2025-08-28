@@ -53,12 +53,7 @@ const Login = () => {
         <img src={logo} alt="Logo" className='w-[300px]' />
         </Link>
       </div>
-      <div className="w-full max-w-md px-4" style={{ marginTop: '3rem' }}>
-        <div className="flex justify-around mb-6">
-          <Link to="/rescuer/login" className="text-orange-500 font-semibold border-b-2 border-orange-500">Rescuer Login</Link>
-          <Link to="/rescuer/signup" className="text-orange-500 font-semibold hover:text-orange-600">Rescuer Signup</Link>
-        </div>
-
+      <div className="w-full max-w-md px-4" style={{ marginTop: '2rem' }}>
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Rescuer Login</h2>
           {loading ? (
@@ -89,13 +84,17 @@ const Login = () => {
                   className="w-full border px-3 py-2 rounded-md"
                 />
               </div>
-
+              <div className="flex flex-start mt-6" style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
+              </div>
               <button type="submit" className="w-full login-btn">
                 Login
               </button>
             </form>
-            <div className="flex flex-start mt-6">
-              <Link to="/rescuer/forgot-password" className="text-orange-500 font-semibold border-b-2 border-orange-500">Forgot Password</Link>
+            <div className="flex items-center justify-center text-sm mt-6">
+              <span>
+                Don't have an account? <Link to="/rescuer/signup" className="text-orange-500 font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Sign Up Here</Link>.
+              </span>
             </div>
             </>
           )}

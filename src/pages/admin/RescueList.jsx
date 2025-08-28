@@ -38,7 +38,7 @@ const RescueList = ({ status }) => {
         <div className="overflow-x-auto">
           <table className="w-full bg-white rounded shadow">
             <thead className="bg-gray-100 text-sm text-left">
-              <tr>
+              <tr className='table-header'>
                 <th className="p-3">Phone</th>
                 <th className="p-3">People</th>
                 <th className="p-3">Situation</th>
