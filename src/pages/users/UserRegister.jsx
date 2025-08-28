@@ -93,7 +93,7 @@ const UserRegister = () => {
               <>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block mb-1 font-medium">Office Location</label>
+                <label className="block mb-1 font-medium">Location</label>
                 <LocationInput
                   onAddressSelect={({ lat, lng, address }) => {
                   setForm((prev) => ({

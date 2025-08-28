@@ -34,11 +34,7 @@ const UserForgotPassword = () => {
         </Link>
       </div>
 
-      <div className="w-full max-w-md px-4 mt-12">
-        <div className="flex justify-around mb-6">
-            <Link to="/user/login" className="text-orange-500 font-semibold border-b-2 border-orange-500">User Login</Link>
-            <Link to="/user/signup" className="text-orange-500 font-semibold hover:text-orange-600">User Signup</Link>
-        </div>
+      <div className="w-full max-w-md px-4 mt-6">
         <div className="bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-xl font-bold text-center mb-4">Forgot Password</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -54,11 +50,15 @@ const UserForgotPassword = () => {
                 className="w-full border px-3 py-2 rounded-md"
               />
             </div>
-
-            <button type="submit" className="w-full login-btn" disabled={loading}>
+             <button type="submit" className="w-full login-btn" disabled={loading}>
               {loading ? 'Sending...' : 'Send Reset Link'}
             </button>
           </form>
+            <div className="flex items-center justify-center text-sm mt-6">
+              <span>
+                Back to <Link to="/user/login" className="text-orange-500 font-semibold hover:text-orange-600 hover:border-b-2 hover:border-orange-500">Login</Link>.
+              </span>
+            </div>
         </div>
       </div>
     </div>
